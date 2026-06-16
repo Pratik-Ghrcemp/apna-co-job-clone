@@ -16,8 +16,8 @@ export function SiteFooter() {
               </span>
             </Link>
             <p className="mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground">
-              Discover jobs, explore company details and apply in a few clicks — a responsive job details experience
-              built for Task-2.
+              A pixel-perfect, responsive clone of the Apna.co job details page — built by{" "}
+              <span className="font-medium text-foreground">Pratik Shelar</span> as part of Task-2.
             </p>
           </div>
 
@@ -48,19 +48,42 @@ export function SiteFooter() {
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold text-foreground">Connect</h4>
-            <p className="mt-3 text-sm text-muted-foreground">support@apna-clone.test</p>
+            <h4 className="text-sm font-semibold text-foreground">Author</h4>
+            <p className="mt-3 text-sm font-medium text-foreground">Pratik Shelar</p>
+            <p className="text-sm text-muted-foreground">Frontend Developer</p>
             <div className="mt-3 flex gap-3 text-muted-foreground">
-              <Globe className="size-5 transition-colors hover:text-primary" />
-              <MessageCircle className="size-5 transition-colors hover:text-primary" />
-              <Mail className="size-5 transition-colors hover:text-primary" />
+              <a
+                href="https://github.com/Pratik-Ghrcemp"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+                className="transition-colors hover:text-primary"
+              >
+                <Globe className="size-5" />
+              </a>
+              <a
+                href="mailto:pratik@example.com"
+                aria-label="Email"
+                className="transition-colors hover:text-primary"
+              >
+                <Mail className="size-5" />
+              </a>
+              <a
+                href="https://linkedin.com/in/pratik-shelar"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="transition-colors hover:text-primary"
+              >
+                <MessageCircle className="size-5" />
+              </a>
             </div>
           </div>
         </div>
 
         <div className="mt-8 flex flex-col gap-2 border-t border-border pt-6 text-xs text-muted-foreground sm:flex-row sm:justify-between">
-          <span>© 2026 apna.co clone — built for Task-2.</span>
-          <span>Responsive React job details page</span>
+          <span>© 2026 apna.co clone — built by Pratik Shelar.</span>
+          <span>Responsive Job Details Page — Task-2</span>
         </div>
       </div>
     </footer>
