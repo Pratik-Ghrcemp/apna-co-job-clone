@@ -34,7 +34,7 @@
 
 ## 1. Project Overview
 
-This project is a **pixel-inspired, production-quality clone** of the [apna.co](https://apna.co) job portal, built as a deliverable for Task-2. The primary goal was to reproduce the job details page experience — a rich, interactive single-job view — while also providing a realistic listings page, bookmarking, an apply flow, and a complete dark/light theme system.
+This project is a **pixel-faithful, production-quality clone** of the [apna.co](https://apna.co) job portal, built as a deliverable for Task-2. The primary goal was to reproduce the job details page experience — a rich, interactive single-job view — while also providing a realistic listings page, bookmarking, an apply flow, and a complete dark/light theme system.
 
 ### Goals
 
@@ -46,12 +46,12 @@ This project is a **pixel-inspired, production-quality clone** of the [apna.co](
 
 ### What was built
 
-| Page | Description |
-|---|---|
-| Job Listings (`/`) | Search, filter (location, type, work mode), paginate through 12 mock jobs |
-| Job Details (`/job/[id]`) | Full-detail view — the primary deliverable |
-| Bookmarks (`/bookmarks`) | Persisted saved jobs |
-| Custom 404 | Friendly not-found page |
+| Page | Route | Description |
+|---|---|---|
+| Job Listings | `/` | Search, filter (location, type, work mode), paginate through mock jobs |
+| Job Details | `/job/[id]` | Full-detail view — the primary deliverable |
+| Bookmarks | `/bookmarks` | Persisted saved jobs |
+| Not Found | `*` | Custom 404 page |
 
 ---
 
@@ -61,35 +61,39 @@ This project is a **pixel-inspired, production-quality clone** of the [apna.co](
 
 ![Home Light](./public/screenshots/home-light.png)
 
-> The listings page shows all jobs in a responsive two-column grid. Keyword search and three dropdown filters narrow results in real time; pagination controls appear when results exceed 6 per page.
+> The listings page shows all jobs in a responsive grid. Keyword search and three dropdown filters narrow results in real time; pagination controls appear when results exceed 6 per page.
 
 ---
 
-### Desktop — Job Details (Light Mode)
+### Desktop — Job Detail Page (Top)
 
 ![Job Detail Top](./public/screenshots/job-detail-top.png)
 
-> The job details header card displays the role title, company name, location, salary, experience, work mode tags, applicant count, and open positions. A prominent **Apply now** button opens the application modal.
+> The header card shows the role title, company name, location, salary, experience, work-mode tags, applicant count, and open positions. A prominent **Apply now** button opens the application modal.
+
+---
+
+### Desktop — Job Detail Page (Description, Skills & Company)
 
 ![Job Detail Bottom](./public/screenshots/job-detail-bottom.png)
 
-> The lower section covers the company "About" panel, required skills, job description, key responsibilities, and a sticky apply card in the right sidebar with similar job recommendations.
+> The lower section covers the full job description, key responsibilities, required skills, job highlights (benefits/perks), and the company "About" panel. The right sidebar shows a sticky apply card and similar job recommendations.
 
 ---
 
-### Desktop — Job Details (Dark Mode)
+### Dark Mode
 
-![Job Detail Dark](./public/screenshots/job-detail-dark.png)
+![Dark Mode](./public/screenshots/job-detail-dark.png)
 
-> The same page in dark mode. The theme is system-aware and can be toggled from the header. All design tokens are defined as CSS custom properties and swap automatically.
+> The same page in dark mode. The theme is system-aware and can be toggled at any time from the header. All color tokens are defined as CSS custom properties and swap automatically.
 
 ---
 
-### Apply Modal
+### Apply Now Modal
 
 ![Apply Modal](./public/screenshots/apply-modal.png)
 
-> Clicking "Apply now" opens a centered modal with a full-name field, email field, and a cover-note textarea. Submitting shows a toast confirmation and closes the dialog. On mobile the same component renders as a full-width bottom sheet.
+> Clicking "Apply now" opens a centered modal. On mobile the same component renders as a full-width bottom sheet that slides up from the screen edge.
 
 ---
 
@@ -97,17 +101,17 @@ This project is a **pixel-inspired, production-quality clone** of the [apna.co](
 
 ![Bookmarks](./public/screenshots/bookmarks.png)
 
-> The bookmarks page lists all jobs the user has saved via the bookmark icon. Data is persisted in `localStorage` so saves survive a page refresh. An empty-state illustration and a "Browse jobs" CTA are shown when no jobs have been saved.
+> The bookmarks page lists all jobs the user has saved via the bookmark icon. Data is persisted in `localStorage` so saves survive a page refresh.
 
 ---
 
 ### Mobile Views
 
-| Mobile Listings | Mobile Job Details |
+| Mobile Listings | Mobile Job Detail |
 |---|---|
 | ![Mobile Home](./public/screenshots/mobile-home.png) | ![Mobile Detail](./public/screenshots/mobile-detail.png) |
 
-> On mobile the two-column grid collapses to a single column. The job details page hides the desktop sidebar and replaces the sticky apply card with a fixed bottom apply bar that floats above the viewport bottom edge.
+> On mobile the layout collapses to a single column. The job detail page hides the desktop sidebar and replaces the sticky apply card with a fixed bottom apply bar that floats above the viewport edge.
 
 ---
 
@@ -118,18 +122,18 @@ This project is a **pixel-inspired, production-quality clone** of the [apna.co](
 | Framework | Next.js (App Router) | 16.x |
 | Language | TypeScript | 5.x |
 | Styling | Tailwind CSS | v4 |
-| Component Library | shadcn/ui | Latest |
+| Component Library | shadcn/ui + Radix UI | Latest |
 | Icons | lucide-react | Latest |
 | Theming | next-themes | Latest |
 | Package Manager | pnpm | 9.x |
 | Deployment | Vercel | — |
 
-### Why Next.js App Router?
+**Why Next.js App Router?**
 
-- File-based routing removes boilerplate (`/job/[id]` just works)
-- React Server Components render static content (job details header, description) with zero JS
-- The `layout.tsx` pattern allows a shared header/footer without prop-drilling
-- First-class Vercel deployment — `pnpm build` + push is all that is needed
+- File-based routing removes boilerplate — `/job/[id]` just works with a folder
+- React Server Components render static content (job header, description) with zero client JS
+- `layout.tsx` provides a shared header/footer shell without prop-drilling
+- First-class Vercel deployment — push to `main` and it is live
 
 ---
 
@@ -138,57 +142,60 @@ This project is a **pixel-inspired, production-quality clone** of the [apna.co](
 ```
 apna-co-job-clone/
 │
-├── app/                          # Next.js App Router
-│   ├── layout.tsx                # Root layout — wraps every page
-│   ├── page.tsx                  # Job listings (search + filters + pagination)
-│   ├── globals.css               # Tailwind v4 theme + CSS design tokens
-│   ├── not-found.tsx             # Custom 404 page
+├── app/                             # Next.js App Router
+│   ├── layout.tsx                   # Root layout — providers, header, footer, metadata
+│   ├── page.tsx                     # "/" — Job listings (search + filters + pagination)
+│   ├── globals.css                  # Tailwind v4 @theme tokens + dark-mode overrides
+│   ├── not-found.tsx                # Custom 404 page
 │   ├── job/
 │   │   └── [id]/
-│   │       └── page.tsx          # Dynamic job details route
+│   │       └── page.tsx             # "/job/:id" — Dynamic job detail route
 │   └── bookmarks/
-│       └── page.tsx              # Saved jobs page
+│       └── page.tsx                 # "/bookmarks" — Saved jobs page
 │
-├── components/                   # Reusable React components
-│   ├── site-header.tsx           # Navigation bar + theme toggle
-│   ├── site-footer.tsx           # Site-wide footer
-│   ├── job-card.tsx              # Job listing card (used on listings + similar jobs)
-│   ├── job-card-skeleton.tsx     # Animated loading skeleton for job cards
-│   ├── job-detail.tsx            # Full job details view (client component)
-│   ├── apply-dialog.tsx          # Apply modal / mobile bottom sheet
-│   ├── theme-toggle.tsx          # Dark / light toggle button
-│   ├── providers.tsx             # ThemeProvider + BookmarksContext
-│   └── ui/                       # shadcn/ui primitives (Button, Dialog, etc.)
+├── components/
+│   ├── site-header.tsx              # Global navigation bar
+│   ├── site-footer.tsx              # Global footer — author: Pratik Shelar
+│   ├── theme-toggle.tsx             # Dark / light icon button
+│   ├── providers.tsx                # ThemeProvider + BookmarkContext + ToastContext
+│   ├── job-card.tsx                 # Reusable listing card
+│   ├── job-card-skeleton.tsx        # Animated loading placeholder
+│   ├── job-detail.tsx               # Full interactive job detail view (client component)
+│   ├── apply-dialog.tsx             # Apply modal / mobile bottom sheet
+│   └── ui/
+│       └── button.tsx               # shadcn/ui Button primitive
 │
 ├── lib/
-│   ├── jobs.ts                   # Mock data + typed helper functions
-│   └── utils.ts                  # cn() Tailwind class utility
+│   ├── jobs.ts                      # Job type definition + mock JOBS array + helpers
+│   └── utils.ts                     # cn() Tailwind class merge utility
 │
-├── public/
-│   ├── screenshots/              # App screenshots embedded in docs
-│   ├── icon.svg                  # Site favicon / logo
-│   └── Task-2.pdf                # Original assessment brief
-│
-├── README.md                     # Quick-start README
-├── DOCUMENTATION.md              # This file — full technical documentation
-├── package.json
-├── tsconfig.json
-├── postcss.config.mjs
-└── components.json               # shadcn/ui configuration
+└── public/
+    ├── screenshots/                 # PNG screenshots embedded in README & docs
+    │   ├── home-light.png
+    │   ├── job-detail-top.png
+    │   ├── job-detail-bottom.png
+    │   ├── job-detail-dark.png
+    │   ├── apply-modal.png
+    │   ├── bookmarks.png
+    │   ├── mobile-home.png
+    │   └── mobile-detail.png
+    ├── Task-2.pdf                   # Original assignment brief
+    └── icon.svg                     # Favicon / site logo
 ```
 
 ### Data flow
 
 ```
-lib/jobs.ts  (mock data)
-     │
-     ▼
-app/page.tsx              ── renders ──▶  components/job-card.tsx
-app/job/[id]/page.tsx     ── renders ──▶  components/job-detail.tsx
-                                               │
-                                               ├── components/apply-dialog.tsx
-                                               └── components/job-card.tsx (similar jobs)
+lib/jobs.ts  (JOBS array + query helpers)
+      │
+      ├──▶  app/page.tsx            renders ▶  <JobCard>  (listings grid)
+      │
+      └──▶  app/job/[id]/page.tsx   renders ▶  <JobDetail>
+                                                    ├── <ApplyDialog>
+                                                    └── <JobCard>  (similar jobs)
 ```
+
+The outer shell (`app/layout.tsx`) is a Server Component. It wraps all pages in a `<Providers>` client boundary so theme and bookmark state is available everywhere without making individual pages client components.
 
 ---
 
@@ -196,142 +203,130 @@ app/job/[id]/page.tsx     ── renders ──▶  components/job-detail.tsx
 
 ### `/` — Job Listings
 
-**File:** `app/page.tsx`  
-**Type:** Server Component (filters run client-side via URL search params)
+**File:** `app/page.tsx`
 
-Features:
-- Hero section with search input and three dropdown filters (location, job type, work mode)
-- Filtered results count label
-- Responsive job card grid (1 col mobile, 2 col desktop)
-- Pagination: 6 cards per page, Previous/Next controls
+- Full-width hero with keyword search input and three dropdown filters: location, job type, work mode
+- Filtered results rendered as a responsive `<JobCard>` grid
+- Client-side pagination (6 cards per page)
+- "No results" empty state when filters match nothing
 
-### `/job/[id]` — Job Details
+### `/job/[id]` — Job Detail
 
-**File:** `app/job/[id]/page.tsx` → delegates to `components/job-detail.tsx`  
-**Type:** Server Component (data fetched from `lib/jobs.ts`) + Client Component (interactivity)
+**File:** `app/job/[id]/page.tsx` (Server) → `components/job-detail.tsx` (Client)
 
-Sections rendered:
-1. Breadcrumb navigation (Jobs > Role title)
-2. **Header card** — logo, title, company, location, tags (job type, work mode), stats (applicants, openings), salary grid, experience, posted date, Apply button, Share button, Bookmark button
-3. **About the role** — full description prose
-4. **Key responsibilities** — bulleted list
-5. **Skills** — tag pills
-6. **About [company]** — company logo, name, founding year, employee range, description
-7. **Right sidebar (desktop only):**
-   - Job highlights (benefits list)
-   - Similar jobs (3 related `JobCard` components)
-   - Sticky apply card (salary, openings count, Apply button)
-8. **Mobile sticky apply bar** — fixed bottom bar with salary and Apply button
+Awaits `params` (required in Next.js 16), calls `getJobById(id)`, then hands the job object to the interactive `<JobDetail>` client component. Calls `notFound()` if the ID does not exist.
+
+**Sections on the page:**
+
+| # | Section | Content |
+|---|---|---|
+| 1 | Breadcrumb | Jobs › Role title |
+| 2 | Header card | Logo, title, company, location, salary, experience, work mode, job type, applicants, openings, tags, Apply / Save / Share buttons |
+| 3 | Description | Full `desc` prose |
+| 4 | Responsibilities | Bulleted list |
+| 5 | Skills | Tag pills |
+| 6 | Job Highlights | Perks / benefits (from `highlights[]`) |
+| 7 | About company | `companyInfo`, `companySize`, `founded` |
+| 8 | Similar Jobs | Up to 3 `<JobCard>` components |
+| 9 | Desktop sidebar | Sticky apply card with salary, openings, Apply button |
+| 10 | Mobile bar | Fixed bottom apply bar with salary and Apply button |
 
 ### `/bookmarks` — Saved Jobs
 
-**File:** `app/bookmarks/page.tsx`  
-**Type:** Client Component (reads `localStorage`)
+**File:** `app/bookmarks/page.tsx`
 
-- Reads saved job IDs from `localStorage` via `BookmarksContext`
-- Renders matching jobs as `JobCard` components
-- Empty state with illustration and "Browse jobs" CTA
+Reads the `bookmarks` array from `BookmarkContext`, maps it to `Job` objects via `getJobById`, and renders them as `<JobCard>` components. Shows an empty state with a "Browse jobs" CTA when nothing is saved.
 
 ### `*` — Not Found
 
-**File:** `app/not-found.tsx`  
-**Type:** Server Component
+**File:** `app/not-found.tsx`
 
-- Friendly 404 message with a "Back to jobs" link
+Rendered automatically by Next.js for any route that does not match a file. Shows a friendly message and a link back to the listings.
 
 ---
 
 ## 6. Component Reference
 
-### `SiteHeader`
+### `<SiteHeader />`
 
-Top navigation bar. Contains:
-- Brand logo + "apna.co" wordmark (links to `/`)
-- "Task PDF" link (opens `public/Task-2.pdf`)
-- Bookmarks icon (links to `/bookmarks`) with saved-count badge
-- `ThemeToggle` button
-- "Sign in" button (UI only)
+Global navigation bar, server-rendered. Contains the brand logo, a link to `/bookmarks` with a live saved-count badge (from `BookmarkContext`), the `<ThemeToggle>` button, and a "Sign in" button (UI only).
 
 ---
 
-### `SiteFooter`
+### `<SiteFooter />`
 
-Four-column footer with brand description, an "Explore" link group (Browse jobs, Saved jobs, Task-2 PDF), a "Connect" contact group, and a copyright line.
+Four-column footer with brand description, Explore links (Browse jobs, Saved jobs, Task-2 PDF), an Author section crediting **Pratik Shelar**, and a copyright line:
+`© 2026 apna.co clone — built by Pratik Shelar.`
 
 ---
 
-### `JobCard`
+### `<ThemeToggle />`
+
+Icon button. Reads the current theme from `next-themes` and shows a Sun (dark mode) or Moon (light mode) icon. ARIA label updates with the current action.
+
+---
+
+### `<JobCard job={job} />`
 
 **Props:**
-```ts
-interface JobCardProps {
-  job: Job
-}
-```
 
-Renders a bordered card showing:
-- Company logo avatar
-- Role title (links to `/job/[id]`)
-- Company name · Location
-- Salary, Experience, Work mode metadata row
-- Job type and work mode tag pills
-- "Posted X ago" timestamp
-- Bookmark toggle button (filled/unfilled based on `BookmarksContext`)
+| Prop | Type | Required |
+|---|---|---|
+| `job` | `Job` | Yes |
+
+Renders a bordered card with the company logo avatar, role title (link to `/job/[id]`), company name, location, salary, experience, work-mode and job-type badges, applicant/opening count, relative posted time, and a bookmark toggle button.
 
 ---
 
-### `JobCardSkeleton`
+### `<JobCardSkeleton />`
 
-Animated `animate-pulse` placeholder that mirrors `JobCard` layout. Used while data is loading.
+Zero-props. Renders an `animate-pulse` grey-block placeholder that exactly mirrors the `<JobCard>` dimensions to prevent layout shift while data loads.
 
 ---
 
-### `JobDetail`
+### `<JobDetail job={job} allJobs={allJobs} />`
 
-**Type:** `"use client"` component  
+`"use client"` component — the most complex in the project.
+
 **Props:**
-```ts
-interface JobDetailProps {
-  job: Job
-  similarJobs: Job[]
-}
-```
 
-The main interactive component for the job details page. Manages:
-- `ApplyDialog` open/closed state
-- Share-to-clipboard logic with toast feedback
-- Bookmark toggle via `BookmarksContext`
-- Sticky mobile apply bar visibility via scroll position
+| Prop | Type | Required |
+|---|---|---|
+| `job` | `Job` | Yes |
+| `allJobs` | `Job[]` | Yes |
+
+Manages:
+- `applyOpen` state — opens/closes `<ApplyDialog>`
+- Share-to-clipboard via `navigator.clipboard.writeText()` + `showToast()`
+- Bookmark toggle via `useBookmarks()`
+- Derives `similarJobs` from `allJobs` by excluding the current job
 
 ---
 
-### `ApplyDialog`
+### `<ApplyDialog open={open} onOpenChange={fn} job={job} />`
 
-**Type:** `"use client"` component  
+`"use client"` Radix `Dialog` wrapping an application form.
+
 **Props:**
-```ts
-interface ApplyDialogProps {
-  job: Job
-  open: boolean
-  onOpenChange: (open: boolean) => void
-}
-```
 
-A shadcn/ui `Dialog` with three fields: Full name, Email, and a "Why are you a great fit?" textarea. On submit, shows a toast and closes. On mobile (viewport < `md`) it renders as a bottom-anchored sheet via CSS.
+| Prop | Type | Required |
+|---|---|---|
+| `open` | `boolean` | Yes |
+| `onOpenChange` | `(open: boolean) => void` | Yes |
+| `job` | `Job` | Yes |
 
----
+**Form fields:** Full name, Email address, Phone number, Years of experience, Cover note (optional textarea).
 
-### `ThemeToggle`
-
-A single icon button that calls `setTheme()` from `next-themes`. Shows a sun icon in dark mode and a moon icon in light mode.
+On submit: runs basic HTML5 validation, shows a success toast via `useToast()`, resets the form, and closes the dialog. On mobile the dialog renders as a bottom-anchored sheet. Fully keyboard-accessible — focus is trapped inside the dialog; Escape closes it.
 
 ---
 
-### `Providers`
+### `<Providers children={...} />`
 
-Wraps the app in:
-1. `ThemeProvider` (from `next-themes`) — `attribute="class"`, `defaultTheme="system"`
-2. `BookmarksContext.Provider` — global bookmark state with `localStorage` sync
+Root client boundary (`"use client"`). Nests:
+1. `ThemeProvider` from `next-themes` — `attribute="class"`, `defaultTheme="system"`, `enableSystem`
+2. `BookmarkProvider` — custom Context backed by `localStorage`
+3. `ToastProvider` — lightweight custom toast stack
 
 ---
 
@@ -339,64 +334,88 @@ Wraps the app in:
 
 **File:** `lib/jobs.ts`
 
-### Type definition
+### `Job` type
 
 ```ts
 export type Job = {
-  id: string
+  id: number
   title: string
   company: string
-  logo: string
+  logo: string             // Single-letter avatar, e.g. "A"
   location: string
-  salary: string
-  experience: string
-  jobType: "Full-time" | "Part-time" | "Contract" | "Internship"
-  workMode: "On-site" | "Remote" | "Hybrid"
-  postedAt: string
-  applicants: number
+  workMode: "Remote" | "Hybrid" | "On-site"
+  salary: string           // e.g. "₹18L – ₹25L / year"
+  exp: string              // e.g. "3 - 6 years"
+  posted: string           // e.g. "2 days ago"
+  type: "Full-time" | "Internship" | "Part-time" | "Contract"
   openings: number
-  tags: string[]
-  description: string
+  applicants: number
+  desc: string
   responsibilities: string[]
   skills: string[]
-  highlights: string[]
-  about: string
+  highlights: string[]     // Benefits / perks
+  companyInfo: string
+  companySize: string
   founded: string
-  employees: string
 }
 ```
 
-### Helper functions
+### Query helpers
 
-| Function | Returns | Description |
+| Function | Signature | Purpose |
 |---|---|---|
-| `getAllJobs()` | `Job[]` | All 12 mock jobs |
-| `getJobById(id)` | `Job \| undefined` | Single job by ID |
-| `getSimilarJobs(job, limit)` | `Job[]` | Jobs sharing tags or location, excluding the source job |
-| `searchJobs(query, filters)` | `Job[]` | Filtered subset matching keyword + dropdown values |
+| `getAllJobs` | `() => Job[]` | Returns all jobs in the array |
+| `getJobById` | `(id: number) => Job \| undefined` | Finds a single job by its numeric ID |
+| `getSimilarJobs` | `(exclude: Job, n?: number) => Job[]` | Returns up to `n` jobs that are not the given job |
+| `searchJobs` | `(q: string, filters) => Job[]` | Keyword + filter search used by the listings page |
 
-Replacing mock data with a real API only requires updating these four functions — the rest of the app is unchanged.
+To connect a real API, replace the bodies of these four functions with `fetch` calls. No other files need to change.
 
 ---
 
 ## 8. State Management
 
-The project uses **React Context** for shared client state. No external state library is needed.
+No external state library is used. All shared state is managed through React Context.
 
-### `BookmarksContext`
+### `BookmarkContext`
 
 ```ts
-interface BookmarksContextValue {
-  bookmarks: string[]            // Array of bookmarked job IDs
-  toggle: (id: string) => void   // Add / remove a bookmark
-  isBookmarked: (id: string) => boolean
+type BookmarkContextType = {
+  bookmarks: number[]
+  toggleBookmark: (id: number) => void
+  isBookmarked: (id: number) => boolean
+  ready: boolean             // false until localStorage is read (hydration guard)
 }
 ```
 
-- Initialises from `localStorage` on first render (client-side only)
-- Syncs back to `localStorage` on every change via `useEffect`
-- Provided globally in `components/providers.tsx`
-- Consumed by `JobCard`, `JobDetail`, and `app/bookmarks/page.tsx`
+**localStorage key:** `apna:bookmarks`
+
+The `ready` flag prevents hydration mismatches — components check `ready` before rendering bookmark state.
+
+**Consuming:**
+```tsx
+import { useBookmarks } from "@/components/providers"
+const { isBookmarked, toggleBookmark } = useBookmarks()
+```
+
+---
+
+### `ToastContext`
+
+```ts
+type ToastContextType = {
+  showToast: (message: string, type?: "success" | "error") => void
+}
+```
+
+Toasts auto-dismiss after 3 seconds and stack in the bottom-right corner of the viewport. No external dependency.
+
+**Consuming:**
+```tsx
+import { useToast } from "@/components/providers"
+const { showToast } = useToast()
+showToast("Link copied!", "success")
+```
 
 ---
 
@@ -404,43 +423,57 @@ interface BookmarksContextValue {
 
 **File:** `app/globals.css`
 
-The design system uses **Tailwind CSS v4 design tokens** defined as CSS custom properties. All colors are expressed in the `oklch` color space for perceptual uniformity.
+Tailwind v4 tokens are declared with `@theme inline` and use the `oklch` color space for perceptual uniformity.
 
-### Color palette
+### Color tokens
 
-| Token | Light value | Purpose |
-|---|---|---|
-| `--primary` | `oklch(0.55 0.2 262)` | Brand blue (buttons, links, accents) |
-| `--background` | `oklch(0.985 0.002 247)` | Page background |
-| `--card` | `oklch(1 0 0)` | Card / panel background |
-| `--foreground` | `oklch(0.21 0.02 257)` | Primary text |
-| `--muted-foreground` | `oklch(0.55 0.02 257)` | Secondary / meta text |
-| `--border` | `oklch(0.92 0.01 255)` | Card and input borders |
+| Token | Light value | Dark value | Usage |
+|---|---|---|---|
+| `--primary` | `oklch(0.55 0.2 262)` | `oklch(0.65 0.18 262)` | Brand blue — buttons, links, badges |
+| `--background` | `oklch(0.985 0.002 247)` | `oklch(0.18 0.02 257)` | Page background |
+| `--card` | `oklch(1 0 0)` | `oklch(0.23 0.02 257)` | Card / panel background |
+| `--foreground` | `oklch(0.21 0.02 257)` | `oklch(0.97 0.01 255)` | Primary text |
+| `--muted-foreground` | `oklch(0.55 0.02 257)` | `oklch(0.7 0.02 257)` | Secondary / meta text |
+| `--border` | `oklch(0.92 0.01 255)` | `oklch(1 0 0 / 12%)` | Borders |
 
-Dark mode tokens are defined under `.dark {}` and swap automatically when the `dark` class is applied to `<html>`.
+Dark-mode tokens live under `.dark {}` and are applied automatically when `next-themes` adds the `dark` class to `<html>`.
 
 ### Typography
 
-- **Body / UI:** Geist Sans (variable font loaded via `next/font/google`)
-- **Code / mono:** Geist Mono
+| Variable | Font | How it is loaded |
+|---|---|---|
+| `--font-sans` | Geist | `next/font/google` in `app/layout.tsx` |
+| `--font-mono` | Geist Mono | `next/font/google` in `app/layout.tsx` |
 
 ---
 
 ## 10. Responsive Design
 
-The layout is **mobile-first**, enhanced progressively for wider viewports.
+The layout is **mobile-first**. Base styles target small screens; Tailwind responsive prefixes enhance them for wider viewports.
 
-| Breakpoint | Behaviour |
-|---|---|
-| `< 640px` (mobile) | Single-column listings; job details sidebar hidden; sticky bottom apply bar visible |
-| `640px – 1024px` (tablet) | Two-column listings grid; job details sidebar hidden; sticky bottom apply bar visible |
-| `> 1024px` (desktop) | Two-column listings grid; job details two-column layout (main + sidebar); sticky sidebar apply card visible; bottom apply bar hidden |
+| Breakpoint | Width | Key behaviour |
+|---|---|---|
+| base | < 640 px | Single-column grid; mobile sticky apply bar shown; sidebar hidden |
+| `sm` | 640 px+ | Wider container padding; filter bar wraps neatly |
+| `md` | 768 px+ | Two-column listings grid; job detail two-column layout; desktop apply card shown |
+| `lg` | 1024 px+ | Max-width container centred; relaxed gutter spacing |
 
-Key responsive patterns:
-- `md:grid-cols-2` for the listings grid
-- `lg:grid-cols-[1fr_340px]` for the job details layout
-- `hidden lg:block` / `lg:hidden` for toggling sidebar vs. mobile bar
-- Apply modal: `Dialog` on desktop, bottom-pinned sheet on mobile via `max-md:` Tailwind variants
+### Job detail two-column layout (md+)
+
+```
+┌─────────────────────────────────┬────────────────┐
+│  Header card (full width)       │                │
+├─────────────────────────────────┤  Sticky apply  │
+│  Description                    │  card          │
+│  Responsibilities               │                │
+│  Skills                         │  Job           │
+│  Highlights                     │  highlights    │
+│  About company                  │                │
+│  Similar jobs                   │  Similar jobs  │
+└─────────────────────────────────┴────────────────┘
+```
+
+On mobile the right column is hidden and replaced by a fixed bottom apply bar.
 
 ---
 
@@ -448,34 +481,33 @@ Key responsive patterns:
 
 ### Prerequisites
 
-- Node.js 18 or later
-- pnpm 9 (`npm install -g pnpm`)
+- Node.js 20 or later
+- pnpm (`npm install -g pnpm`)
 
 ### Installation
 
 ```bash
-# Clone the repository
+# 1. Clone the repository
 git clone https://github.com/Pratik-Ghrcemp/apna-co-job-clone.git
 cd apna-co-job-clone
 
-# Install dependencies
+# 2. Install dependencies
 pnpm install
 
-# Start the development server
+# 3. Start the development server
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the app.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ### Available Scripts
 
 | Command | Description |
 |---|---|
-| `pnpm dev` | Start the development server with HMR |
-| `pnpm build` | Create an optimised production build |
-| `pnpm start` | Serve the production build locally |
-| `pnpm lint` | Run ESLint across the codebase |
-| `pnpm type-check` | Run TypeScript type checker (no emit) |
+| `pnpm dev` | Start the Turbopack dev server with HMR |
+| `pnpm build` | Create an optimised production build in `.next/` |
+| `pnpm start` | Serve the production build locally on port 3000 |
+| `pnpm lint` | Run ESLint across all `.ts` / `.tsx` files |
 
 ---
 
@@ -483,34 +515,40 @@ Open [http://localhost:3000](http://localhost:3000) to view the app.
 
 ### Vercel (recommended)
 
-This repository is connected to Vercel. Every push to the `main` branch triggers an automatic production deployment. Preview deployments are created for every pull request.
+The repository is connected to **Vercel**. Every push to `main` triggers an automatic production deployment. Pull requests receive isolated Preview Deployments.
 
-Manual deploy via CLI:
+**To deploy your own fork:**
+
+1. Fork the repo on GitHub.
+2. Go to [vercel.com/new](https://vercel.com/new) and import the fork.
+3. Vercel auto-detects Next.js — no configuration required.
+4. No environment variables are needed (all data is static).
+5. Click **Deploy**.
+
+### Manual production build
+
 ```bash
-pnpm build
-vercel --prod
+pnpm build    # outputs to .next/
+pnpm start    # serves on http://localhost:3000
 ```
-
-### Environment Variables
-
-No environment variables are required for the base project — all data is mocked. If you replace `lib/jobs.ts` with a real API, add the necessary keys to Vercel's project settings or a local `.env.local` file.
 
 ---
 
 ## 13. Known Limitations
 
-| Item | Detail |
+| Area | Detail |
 |---|---|
-| Mock data only | All job listings are static. No real API or database is connected. |
-| No authentication | The "Sign in" button in the header is UI-only and has no auth flow behind it. |
-| Bookmarks are local | Bookmarks are stored in `localStorage` — they are device-specific and cleared on browser data wipe. |
-| Apply is simulated | Submitting the apply form shows a toast but does not send any data anywhere. |
-| No search persistence | Search query and filters reset on page navigation (state is not stored in URL params). |
+| Data source | All job listings are static mock data in `lib/jobs.ts`. No live API is connected. |
+| Authentication | "Sign in" is UI-only. There is no auth flow behind it. |
+| Bookmarks | Stored in `localStorage` — device-specific and cleared on browser data wipe. |
+| Apply form | Submitting shows a toast but sends no data anywhere. |
+| Search | Runs entirely client-side over the mock data set. |
+| Images | Company logos are rendered as single-letter text avatars, not real images. |
 
 ---
 
 <div align="center">
 
-Built by **Pratik Shelar** — Task-2 Assessment
+Developed by **Pratik Shelar**
 
 </div>
