@@ -59,8 +59,8 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-8 flex flex-col gap-2 border-t border-border pt-6 text-xs text-muted-foreground sm:flex-row sm:justify-between">
-          <span>© 2026 apna.co clone — built for Task-2.</span>
-          <span>Responsive React job details page</span>
+          <span>© 2026 apna.co clone — built by Pratik Shelar.</span>
+          <span>Responsive Job Details Page — Task-2</span>
         </div>
       </div>
     </footer>

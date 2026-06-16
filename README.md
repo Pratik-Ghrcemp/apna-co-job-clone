@@ -1,114 +1,135 @@
-# Apna.co — Job Details Clone
+<div align="center">
 
-A pixel-inspired, fully responsive **Job Details experience** modeled on [apna.co](https://apna.co), built for **Task-2**. It features a job listings page with search & filters, a rich single-job details view, bookmarking, an apply flow, and a dark/light theme — all powered by typed mock JSON data.
+<img src="./public/icon.svg" width="64" height="64" alt="apna.co logo" />
 
-> Built with the **Next.js App Router**, **TypeScript**, **Tailwind CSS v4**, and **shadcn/ui**.
+# apna.co — Job Details Clone
 
-🔗 [Continue working on v0 →](https://v0.app/chat/projects/prj_s2VU28Nfoz86RfR0kM8BXBNWXBsm)
+**A pixel-inspired, fully responsive job portal** modeled on [apna.co](https://apna.co).  
+Listings, rich job details, bookmarks, apply flow, dark/light theme — all built with Next.js & TypeScript.
 
----
+**Built by [Pratik Shelar](https://github.com/Pratik-Ghrcemp)**
 
-## ✨ Features
+![Job Listings](./public/screenshots/home-light.png)
 
-- **Job listings page** (`/`) — keyword search, plus location, job-type, and work-mode filters with client-side pagination.
-- **Job details page** (`/job/[id]`) — the centerpiece:
-  - Header card with role, company, salary, experience, stats, and tags
-  - Full job description, key responsibilities, and required skills
-  - Company "About" section and job highlights
-  - "Similar jobs" recommendations
-  - Sticky **Apply** card on desktop and a sticky **Apply** bar on mobile
-- **Apply flow** — a modal form (renders as a bottom sheet on mobile) with validation and toast confirmation.
-- **Bookmarks** (`/bookmarks`) — save jobs to revisit; persisted in `localStorage`.
-- **Share** — copy the job link to the clipboard with a toast.
-- **Dark / light theme** — system-aware toggle via `next-themes`.
-- **Responsive, accessible UI** — semantic HTML, ARIA labels, keyboard-friendly controls.
-- **Loading skeletons** and a custom **404 / not-found** page.
+</div>
 
 ---
 
-## 🛠 Tech Stack
+## Preview
 
-| Layer        | Choice                                  |
-| ------------ | --------------------------------------- |
-| Framework    | Next.js (App Router)                    |
-| Language     | TypeScript                              |
-| Styling      | Tailwind CSS v4                         |
-| Components   | shadcn/ui + lucide-react icons          |
-| Theming      | next-themes                             |
-| Data         | Typed mock JSON (`lib/jobs.ts`)         |
-| Deployment   | Vercel                                  |
+| Job Details (Light) | Job Details (Dark) |
+|---|---|
+| ![Job Detail Light](./public/screenshots/job-detail-top.png) | ![Job Detail Dark](./public/screenshots/job-detail-dark.png) |
+
+| Apply Modal | Mobile View |
+|---|---|
+| ![Apply Modal](./public/screenshots/apply-modal.png) | ![Mobile Detail](./public/screenshots/mobile-detail.png) |
 
 ---
 
-## 📁 Project Structure
+## Features
+
+- **Job Listings** (`/`) — keyword search with location, job-type, and work-mode filters; client-side pagination
+- **Job Details** (`/job/[id]`) — the centerpiece:
+  - Header card: role, company, salary, experience, applicant count, openings
+  - Full description, key responsibilities, required skills
+  - Company "About" section with founding info and headcount
+  - Job highlights (ESOPs, remote-friendly, health insurance, etc.)
+  - Similar jobs sidebar
+  - Sticky **Apply** card on desktop; sticky **Apply** bar on mobile
+- **Apply Flow** — modal form (bottom sheet on mobile) with validation and toast confirmation
+- **Bookmarks** (`/bookmarks`) — save and revisit roles; persisted via `localStorage`
+- **Share** — copy the job link to clipboard with a one-click toast
+- **Dark / Light Theme** — system-aware toggle via `next-themes`
+- **Responsive & Accessible** — semantic HTML, ARIA labels, keyboard navigation
+- **Loading Skeletons** and a custom **404** page
+
+---
+
+## Tech Stack
+
+| Layer | Choice |
+|---|---|
+| Framework | Next.js 16 (App Router) |
+| Language | TypeScript |
+| Styling | Tailwind CSS v4 |
+| Components | shadcn/ui + lucide-react |
+| Theming | next-themes |
+| Data | Typed mock JSON (`lib/jobs.ts`) |
+| Deployment | Vercel |
+
+---
+
+## Project Structure
 
 ```
-app/
-  layout.tsx          # Root layout: providers, header, footer, metadata
-  page.tsx            # Job listings page (search + filters + pagination)
-  job/[id]/page.tsx   # Dynamic job details route
-  bookmarks/page.tsx  # Saved jobs page
-  not-found.tsx       # Custom 404
-  globals.css         # Design tokens & theme
-
-components/
-  site-header.tsx     # Top nav + theme toggle
-  site-footer.tsx     # Footer
-  job-card.tsx        # Reusable job list item
-  job-card-skeleton.tsx
-  job-detail.tsx      # Full job details view (client component)
-  apply-dialog.tsx    # Apply modal / bottom sheet
-  theme-toggle.tsx    # Dark/light switch
-  providers.tsx       # Theme + bookmarks context
-  ui/                 # shadcn/ui primitives
-
-lib/
-  jobs.ts             # Mock job data + helper queries
-  utils.ts            # cn() class helper
-
-public/
-  Task-2.pdf          # Original task brief
+apna-co-job-clone/
+├── app/
+│   ├── layout.tsx            # Root layout: providers, header, footer, metadata
+│   ├── page.tsx              # Job listings page (search + filters + pagination)
+│   ├── globals.css           # Design tokens & Tailwind theme
+│   ├── not-found.tsx         # Custom 404 page
+│   ├── job/
+│   │   └── [id]/page.tsx     # Dynamic job details route
+│   └── bookmarks/
+│       └── page.tsx          # Saved jobs page
+├── components/
+│   ├── site-header.tsx       # Top nav + theme toggle
+│   ├── site-footer.tsx       # Footer
+│   ├── job-card.tsx          # Reusable job list item card
+│   ├── job-card-skeleton.tsx # Loading skeleton for job cards
+│   ├── job-detail.tsx        # Full job details view (client component)
+│   ├── apply-dialog.tsx      # Apply modal / bottom sheet
+│   ├── theme-toggle.tsx      # Dark/light switch button
+│   ├── providers.tsx         # Theme + bookmarks context providers
+│   └── ui/                   # shadcn/ui primitives
+├── lib/
+│   ├── jobs.ts               # Mock job data + typed helper queries
+│   └── utils.ts              # cn() class helper
+└── public/
+    ├── screenshots/          # App screenshots (used in docs)
+    └── Task-2.pdf            # Original task brief
 ```
 
 ---
 
-## 🚀 Getting Started
-
-Install dependencies and start the dev server:
+## Getting Started
 
 ```bash
+# Install dependencies
 pnpm install
+
+# Start the dev server
 pnpm dev
-# or: npm install && npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### Available Scripts
+### Scripts
 
-| Command         | Description                       |
-| --------------- | --------------------------------- |
-| `pnpm dev`      | Start the development server      |
-| `pnpm build`    | Create a production build         |
-| `pnpm start`    | Run the production build locally  |
-| `pnpm lint`     | Lint the codebase                 |
-
----
-
-## 🧭 Routing
-
-| Route          | Description                          |
-| -------------- | ------------------------------------ |
-| `/`            | Job listings with search & filters   |
-| `/job/[id]`    | Detailed view for a single job       |
-| `/bookmarks`   | Jobs saved by the user               |
-| `*`            | Custom not-found page                |
+| Command | Description |
+|---|---|
+| `pnpm dev` | Start the development server |
+| `pnpm build` | Create a production build |
+| `pnpm start` | Run the production build locally |
+| `pnpm lint` | Lint the codebase |
 
 ---
 
-## 📊 Data Model
+## Routes
 
-All data is mocked in `lib/jobs.ts`. Each job follows this shape:
+| Route | Description |
+|---|---|
+| `/` | Job listings with search & filters |
+| `/job/[id]` | Detailed view for a single job |
+| `/bookmarks` | Jobs saved by the user |
+| `*` | Custom not-found (404) page |
+
+---
+
+## Data Model
+
+All data is mocked in `lib/jobs.ts`. Each job follows this typed shape:
 
 ```ts
 type Job = {
@@ -119,35 +140,45 @@ type Job = {
   location: string
   salary: string
   experience: string
-  jobType: string        // Full-time, Part-time, ...
-  workMode: string       // On-site, Remote, Hybrid
+  jobType: string        // "Full-time" | "Part-time" | "Contract" | "Internship"
+  workMode: string       // "On-site" | "Remote" | "Hybrid"
   postedAt: string
   applicants: number
+  openings: number
   tags: string[]
   description: string
   responsibilities: string[]
   skills: string[]
   highlights: string[]
   about: string
+  founded: string
+  employees: string
 }
 ```
 
-Helper functions expose typed queries (`getAllJobs`, `getJobById`, `getSimilarJobs`, etc.) so the UI stays decoupled from the data source — swapping the mock layer for a real API later only touches `lib/jobs.ts`.
+Helper functions (`getAllJobs`, `getJobById`, `getSimilarJobs`) keep the UI decoupled from the data source — swapping mock data for a real API only requires changes in `lib/jobs.ts`.
 
 ---
 
-## ☁️ Deployment
+## Deployment
 
-This repository is linked to **Vercel**. Every merge to `main` deploys automatically. You can also deploy manually:
+The repository is connected to **Vercel**. Every push to `main` triggers an automatic production deploy.
 
 ```bash
+# Manual production build
 pnpm build
 ```
 
-Then push to the connected repo, or click **Publish** in v0.
+---
+
+## Author
+
+**Pratik Shelar**  
+GitHub: [@Pratik-Ghrcemp](https://github.com/Pratik-Ghrcemp)
 
 ---
 
-## 📄 License
+## License
 
-This project was created for educational/assessment purposes (Task-2). The apna.co brand and design belong to their respective owners.
+This project was created for educational and assessment purposes (Task-2).  
+The apna.co brand and design belong to their respective owners.
