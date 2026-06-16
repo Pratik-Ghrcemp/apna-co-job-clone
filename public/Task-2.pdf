@@ -1,0 +1,62 @@
+
+
+ 
+www.originedgetech.com 
+ 
+OriginEdge Technologies 
+B-607, Block B - Ratnaakar Nine Square                
+Opp. ITC Hotel, Vastrapur, Ahmedabad 380015 
+Project: Apna.co Job Details Page Clone 
+ 
+Project Overview 
+Develop a pixel-perfect clone of the Apna.co Job Details page by replicating the design, layout, 
+responsiveness, navigation flow, and user interface components as closely as possible. 
+The cloned application should provide the same user experience as the original website, 
+including job information display, company details, application sections, job highlights, related 
+jobs, and responsive behavior across different screen sizes. 
+Reference URLs:  Apna Job Listing 1     Apna Job Listing 2 
+Requirements 
+Functional Requirements 
+• Replicate the complete UI design.  
+• Create reusable React components.  
+• Implement responsive layouts for:  
+o Desktop  
+o Tablet  
+o Mobile  
+• Dynamic job details rendering using mock JSON data.  
+• Navigation between multiple job pages.  
+• Similar typography, spacing, cards, buttons, and sections.  
+• Sticky Apply Button.  
+• Similar footer and header sections.  
+• Related Jobs Section.  
+• Company Information Section. 
+
+ 
+www.originedgetech.com 
+ 
+OriginEdge Technologies 
+B-607, Block B - Ratnaakar Nine Square                
+Opp. ITC Hotel, Vastrapur, Ahmedabad 380015 
+Technical Requirements 
+• Follow Component-Based Architecture.  
+• Maintain clean folder structure.  
+• Use reusable UI components.  
+• Implement responsive design principles.  
+• Use Git for version control.  
+• Deploy the final project. 
+Tech Stack 
+Frontend 
+• React.js  
+• React Router DOM  
+Styling (Choose Any One) 
+• Tailwind CSS  
+• Chakra UI  
+• Material UI  
+Deployment: GitHub 
+Deliverables 
+Mandatory 
+• Complete Apna.co Clone  
+• Fully Responsive Design  
+• GitHub Repository  
+• Live Deployment Link  
+• Proper Documentation 
